@@ -5,5 +5,6 @@ public class Student extends Person {
     public Student(int age, boolean parentPermission, String classroom, String name) {
         super(age, parentPermission, name);
         this.classroom = classroom;
+
     }
 }
