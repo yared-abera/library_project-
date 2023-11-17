@@ -3,7 +3,7 @@ public class Rental {
     String date;
 
     // Book associated with the rental
-    Book book;
+     Book book;
 
     // Person who rented the book
     Person person;

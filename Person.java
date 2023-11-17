@@ -21,7 +21,7 @@ public class Person implements Nameable {
 
     // Constructor to initialize a person with age, parental permission, and name
     public Person(int age, boolean parentPermission, String name) {
-        this.age = age;
+         this.age = age;
         this.parentPermission = parentPermission;
         this.name = name;
     }

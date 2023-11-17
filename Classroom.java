@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Classroom {
     // Label for the classroom
-    String label;
+     String label;
 
     // List of students in the classroom
     List<Student> students = new ArrayList<>();

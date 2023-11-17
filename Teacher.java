@@ -8,7 +8,7 @@ public class Teacher extends Person {
     }
 
 
-    public boolean can_use_services() {
+     public boolean can_use_services() {
 
         return true;
     }
