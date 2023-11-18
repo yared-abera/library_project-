@@ -1,4 +1,3 @@
-// Person.java
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class Person implements Nameable {
     boolean parentPermission = true;
 
     // List to store rentals associated with the person
-    private List<Rental> rentals = new ArrayList<>();
+   List<Rental> rentals = new ArrayList<>();
 
     // Constructor to initialize a person with age, parental permission, and name
     public Person(int age, boolean parentPermission, String name) {
@@ -66,7 +65,7 @@ public class Person implements Nameable {
     }
 
     // Implementation of the correctName method from the Nameable interface
-    @Override
+
     public String correctName() {
         return name;
     }
