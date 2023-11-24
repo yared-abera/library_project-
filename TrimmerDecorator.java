@@ -5,8 +5,8 @@ public class TrimmerDecorator extends Decorator {
 
     @Override
     public String correctName() {
-        String originalName = super.correctName();
-        return originalName.length() > 10 ? originalName.substring(0, 10) : originalName;
+         String originalName = super.correctName();
+         return originalName.length() > 10 ? originalName.substring(0, 10) : originalName;
     }
 }
 
