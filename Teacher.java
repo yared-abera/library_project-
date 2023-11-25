@@ -2,13 +2,15 @@
      String specialization;
 
 
-    public Teacher(int age, boolean parentPermission, String specialization, String name) {
-        super(age, parentPermission, name);
+    public Teacher(int id,int age, boolean parentPermission, String specialization, String name) {
+        super(id,age, parentPermission, name);
         this.specialization = specialization;
     }
 
 
-     public boolean can_use_services() {
+
+
+    public boolean can_use_services() {
 
         return true;
     }
