@@ -1,4 +1,4 @@
-public class Rental {
+ public class Rental {
     // Date of the rental
     String date;
 
