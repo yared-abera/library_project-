@@ -1,4 +1,4 @@
-public class Student extends Person {
+ public class Student extends Person {
      Classroom classroom;
     /* public  Student(int id , int age, boolean parentPermission, name){
          super(id, age, parentPermission,name);
