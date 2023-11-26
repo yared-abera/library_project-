@@ -16,69 +16,44 @@ public class App {
     public static void listAllPeople() {
         System.out.println("People:");
         for (Person person : people) {
-            System.out.println(person.getName() + " (ID: " + person.getId() + ")");
+            System.out.printf("ID: %d%n", person.getId());
+            System.out.printf("NAME: %s%n", person.getName());
+            System.out.printf("AGE: %d%n", person.getAge());
         }
     }
-    public static void createPerson(boolean isTeacher) {
+    public static void createPerson() {
         Scanner scanner = new Scanner(System.in);
         int id = nextPersonId++;
-        Person person = null;
+        System.out.print("Enter person's name: ");
+        String name = scanner.nextLine();
 
-        while (person == null) {
-            if (isTeacher) {
-                System.out.print("Enter the name of the teacher: ");
-            } else {
-                System.out.print("Enter the name of the student: ");
-            }
-            String name = scanner.nextLine();
+        System.out.print("Enter person's age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine();
 
-            if (isTeacher) {
-                System.out.print("Enter specialization: ");
-                String sp = scanner.nextLine();
-                System.out.print("Enter age of the teacher: ");
-                int age = getIntInput(scanner);
-                System.out.print("Enter parentPermission : ");
-                boolean parentPermission = getBooleanInput(scanner);
-                person = new Teacher(id, age, parentPermission, sp, name);
-            } else {
-                System.out.print("Enter student's classroom: ");
-                String classroom = scanner.nextLine();
-                System.out.print("Enter age of the student: ");
-                int age = getIntInput(scanner);
-                System.out.print("Enter parentPermission : ");
-                boolean parentPermission = getBooleanInput(scanner);
-                person = new Student(id, age, parentPermission, classroom, name);
-            }
+        System.out.print("Does the person have parent permission? (true/false): ");
+        boolean parentPermission = scanner.nextBoolean();
+        scanner.nextLine();
 
-            if (person == null) {
-                System.out.println("Invalid input. Please try again.");
-            }
-        }
+        System.out.print("Is the person a teacher or student? (teacher/student): ");
+        String personType = scanner.nextLine();
 
-        people.add(person);
-        System.out.println((isTeacher ? "Teacher" : "Student") + " created successfully. ID: " + id);
-    }
-
-    private static int getIntInput(Scanner scanner) {
-        try {
-            return scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid integer.");
-            scanner.nextLine(); // consume the invalid input
-            return getIntInput(scanner); // retry getting input
+        if (personType.equalsIgnoreCase("teacher")) {
+            System.out.print("Enter teacher's specialization: ");
+            String specialization = scanner.nextLine();
+            Teacher teacher = new Teacher(id,age, parentPermission, specialization,name );
+            people.add(teacher);
+            System.out.println("Teacher created successfully.");
+        } else if (personType.equalsIgnoreCase("student")) {
+            Student student = new Student(id ,age, parentPermission,name);
+            people.add(student);
+            System.out.println("Student created successfully.");
+        } else {
+            System.out.println("Invalid person type.");
         }
     }
 
-    private static boolean getBooleanInput(Scanner scanner) {
-        try {
-            return scanner.nextBoolean();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter true or false.");
-            scanner.nextLine(); // consume the invalid input
-            return getBooleanInput(scanner); // retry getting input
-        }
-    }
-
+    
     public static void createBook() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the title of the book: ");
