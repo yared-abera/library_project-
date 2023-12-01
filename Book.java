@@ -1,4 +1,4 @@
-public class Book {
+ public class Book {
     // Title of the book
     String title;
 

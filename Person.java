@@ -1,10 +1,14 @@
-import java.util.ArrayList;
-import java.util.List;
+ import java.util.ArrayList;
+ import java.util.List;
 
 
 public class Person implements Nameable {
     // Unique identifier for the person
     int id;
+
+    public String getName() {
+        return name;
+    }
 
     // Name of the person (defaulted to "unknown" if not provided)
     String name = "unknown";
@@ -19,8 +23,9 @@ public class Person implements Nameable {
    List<Rental> rentals = new ArrayList<>();
 
     // Constructor to initialize a person with age, parental permission, and name
-    public Person(int age, boolean parentPermission, String name) {
-         this.age = age;
+    public Person(int id,int age, boolean parentPermission, String name) {
+        this.id=id;
+        this.age = age;
         this.parentPermission = parentPermission;
         this.name = name;
     }
