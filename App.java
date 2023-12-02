@@ -1,115 +1,130 @@
-import java.util.*;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
     private static List<Book> books = new ArrayList<>();
     private static List<Person> people = new ArrayList<>();
     private static List<Rental> rentals = new ArrayList<>();
     private static int nextPersonId = 1;
+    private MainGUI gui;
 
-    public static void listAllBooks() {
-        System.out.println("Books:");
+
+
+    public App() {
+        this.gui = gui;
+    }
+
+    public void listAllBooks() {
+        StringBuilder booksList = new StringBuilder("Books:\n");
         for (Book book : books) {
-            System.out.println(book.getTitle());
+            booksList.append("BOOK_TITLE  ").append(book.getTitle()).append("\n").append("AUTHOR  ").append( book.getAuthor() );
         }
+        showMessage(booksList.toString());
     }
 
-    public static void listAllPeople() {
-        System.out.println("People:");
+    public void listAllPeople() {
+        StringBuilder peopleList = new StringBuilder("People:\n");
         for (Person person : people) {
-            System.out.printf("ID: %d%n", person.getId());
-            System.out.printf("NAME: %s%n", person.getName());
-            System.out.printf("AGE: %d%n", person.getAge());
+            peopleList.append(String.format("ID: %d%nNAME: %s%nAGE: %d%n", person.getId(), person.correctName(), person.getAge()));
         }
+        showMessage(peopleList.toString());
     }
-    public static void createPerson() {
-        Scanner scanner = new Scanner(System.in);
+
+    public void createPerson() {
         int id = nextPersonId++;
-        System.out.print("Enter person's name: ");
-        String name = scanner.nextLine();
+        String name = getNameFromUser();
+        int age = getAgeFromUser();
+        boolean parentPermission = getParentPermissionFromUser();
 
-        System.out.print("Enter person's age: ");
-        int age = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Does the person have parent permission? (true/false): ");
-        boolean parentPermission = scanner.nextBoolean();
-        scanner.nextLine();
-
-        System.out.print("Is the person a teacher or student? (teacher/student): ");
-        String personType = scanner.nextLine();
-
+        String personType = getPersonTypeFromUser();
         if (personType.equalsIgnoreCase("teacher")) {
-            System.out.print("Enter teacher's specialization: ");
-            String specialization = scanner.nextLine();
-            Teacher teacher = new Teacher(id,age, parentPermission, specialization,name );
-            people.add(teacher);
-            System.out.println("Teacher created successfully.");
+            createTeacher(id, name, age, parentPermission);
         } else if (personType.equalsIgnoreCase("student")) {
-            Student student = new Student(id ,age, parentPermission,name);
-            people.add(student);
-            System.out.println("Student created successfully.");
+            createStudent(id, name, age, parentPermission);
         } else {
-            System.out.println("Invalid person type.");
+            showMessage("Invalid person type.");
         }
     }
 
-    
-    public static void createBook() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the title of the book: ");
-        String title = scanner.nextLine();
-        System.out.print("Enter the author of the book: ");
-        String author= scanner.nextLine();
-        Book book = new Book(title,author);
-        books.add(book);
-        System.out.println("Book created successfully.");
+    private String getNameFromUser() {
+        return JOptionPane.showInputDialog(gui, "Enter person's name:");
     }
 
-    public static void createRental() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the person ID: ");
-        int personId = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+    private int getAgeFromUser() {
+        return Integer.parseInt(JOptionPane.showInputDialog(gui, "Enter person's age:"));
+    }
 
-        System.out.print("Enter the book title: ");
-        String bookTitle = scanner.nextLine();
-        System.out.print("Enter the Date: ");
-        String  Date = scanner.nextLine();
+    private boolean getParentPermissionFromUser() {
+        return Boolean.parseBoolean(JOptionPane.showInputDialog(gui, "Does the person have parent permission? (true/false):"));
+    }
+
+    private String getPersonTypeFromUser() {
+        return JOptionPane.showInputDialog(gui, "Is the person a teacher or student? (teacher/student):");
+    }
+
+
+    private void createTeacher(int id, String name, int age, boolean parentPermission) {
+        String specialization = JOptionPane.showInputDialog(gui, "Enter teacher's specialization:");
+        Teacher teacher = new Teacher(id, age, parentPermission, specialization, name);
+        people.add(teacher);
+        showMessage("Teacher created successfully.");
+    }
+    private void createStudent(int id, String name, int age, boolean parentPermission) {
+        String classroomLabel = JOptionPane.showInputDialog(null, "Enter student's classroom:");
+        Student student =new Student( id,name,age,classroomLabel, parentPermission );
+        people.add(student);
+        showMessage("student created successfully.");}
+
+
+    public void createBook() {
+        String title = JOptionPane.showInputDialog(gui, "Enter the title of the book:");
+        String author = JOptionPane.showInputDialog(gui, "Enter the author of the book:");
+        Book book = new Book(title, author);
+        books.add(book);
+        showMessage("Book created successfully.");
+    }
+
+    public void createRental() {
+        int personId = Integer.parseInt(JOptionPane.showInputDialog(gui, "Enter the person ID:"));
+        String bookTitle = JOptionPane.showInputDialog(gui, "Enter the book title:");
+        String date = JOptionPane.showInputDialog(gui, "Enter the Date:");
 
         Person person = findPersonById(personId);
         Book book = findBookByTitle(bookTitle);
 
         if (person == null) {
-            System.out.println("Person with ID " + personId + " not found.");
+            showMessage("Person with ID " + personId + " not found.");
             return;
         }
 
         if (book == null) {
-            System.out.println("Book with title " + bookTitle + " not found.");
+            showMessage("Book with title " + bookTitle + " not found.");
             return;
         }
 
-        Rental rental = new Rental( Date,book,person);
+        Rental rental = new Rental(date, book, person);
         rentals.add(rental);
-        System.out.println("Rental created successfully.");
+        showMessage("Rental created successfully.");
     }
 
-    public static void listRentalsForPerson(int personId) {
+    public void listRentalsForPerson(int personId) {
         Person person = findPersonById(personId);
         if (person == null) {
-            System.out.println("Person with ID " + personId + " not found.");
+            showMessage("Person with ID " + personId + " not found.");
             return;
         }
 
-        System.out.println("Rentals for " + person.getName() + ":");
+        StringBuilder rentalsList = new StringBuilder("Rentals for " + person.correctName() + ":\n");
         for (Rental rental : rentals) {
             if (rental.getPerson().getId() == personId) {
-                System.out.println(rental.getBook().getTitle());
+                rentalsList.append("BOOK_TITLE: ").append(rental.getBook().getTitle()).append("\n");
             }
         }
+        showMessage(rentalsList.toString());
     }
 
-    private static Person findPersonById(int personId) {
+    private Person findPersonById(int personId) {
         for (Person person : people) {
             if (person.getId() == personId) {
                 return person;
@@ -118,7 +133,7 @@ public class App {
         return null;
     }
 
-    private static Book findBookByTitle(String bookTitle) {
+    private Book findBookByTitle(String bookTitle) {
         for (Book book : books) {
             if (book.getTitle().equals(bookTitle)) {
                 return book;
@@ -126,4 +141,16 @@ public class App {
         }
         return null;
     }
-}
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(gui, message);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MainGUI mainGUI = new MainGUI();
+            App app = new App();
+            mainGUI.setAppInstance(app); // Assuming you have a method setAppInstance in MainGUI
+            mainGUI.setVisible(true);
+        });
+    }}
