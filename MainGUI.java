@@ -37,6 +37,16 @@ public class MainGUI extends JFrame {
 
         add(panel);
     }
+    private JButton createButton(String text, ActionListener listener) {
+        JButton button = new JButton(text);
+        button.addActionListener(listener);
+        return button;
+    }
 
+    private int getUserInput(String prompt) {
+        // You may implement input handling based on your needs
+        return Integer.parseInt(JOptionPane.showInputDialog(prompt));
+
+    }
 
 }

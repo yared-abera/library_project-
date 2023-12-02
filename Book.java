@@ -1,4 +1,4 @@
- public class Book {
+public class Book {
     // Title of the book
     String title;
 
@@ -20,6 +20,8 @@
     public void setTitle(String title) {
         this.title = title;
     }
+
+
 
     // Getter for the author of the book
     public String getAuthor() {
