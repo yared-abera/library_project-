@@ -1,105 +1,42 @@
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.event.ActionListener;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        App app = new App();
+public class MainGUI extends JFrame {
+    private App app = new App();
+    //private App app;
 
-        while (true) {
-              System.out.println("Choose an option:");
-            System.out.println("1. List all books");
-            System.out.println("2. List all people");
-            System.out.println("3. Create a person");
-            System.out.println("4. Create a book");
-            System.out.println("5. Create a rental");
-            System.out.println("6. List rentals for a person");
-            System.out.println("7. Quit");
-
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
-
-            switch (choice) {
-                case 1:
-                    app.listAllBooks();
-                    break;
-                case 2:
-                    app.listAllPeople();
-                    break;
-                case 3:
-                    app.createPerson();
-                    break;
-                case 4:
-                    app.createBook();
-                    break;
-                case 5:
-                    app.createRental();
-                    break;
-                case 6:
-                    System.out.print("Enter the person ID: ");
-                    int personId = scanner.nextInt();
-                    app.listRentalsForPerson(personId);
-                    break;
-                case 7:
-                    System.out.println("Exiting the application...");
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-
-            System.out.println(); // Add a newline for better readability
-        }
+    public void setAppInstance(App appInstance) {
+        this.app = appInstance;
     }
-}import java.util.Scanner;
 
-public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        App app = new App();
-
-        while (true) {
-            System.out.println("Choose an option:");
-            System.out.println("1. List all books");
-            System.out.println("2. List all people");
-            System.out.println("3. Create a person");
-            System.out.println("4. Create a book");
-            System.out.println("5. Create a rental");
-            System.out.println("6. List rentals for a person");
-            System.out.println("7. Quit");
-
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
-
-            switch (choice) {
-                case 1:
-                    app.listAllBooks();
-                    break;
-                case 2:
-                    app.listAllPeople();
-                    break;
-                case 3:
-                    app.createPerson();
-                    break;
-                case 4:
-                    app.createBook();
-                    break;
-                case 5:
-                    app.createRental();
-                    break;
-                case 6:
-                    System.out.print("Enter the person ID: ");
-                    int personId = scanner.nextInt();
-                    app.listRentalsForPerson(personId);
-                    break;
-                case 7:
-                    System.out.println("Exiting the application...");
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-
-            System.out.println(); // Add a newline for better readability
-        }
+        SwingUtilities.invokeLater(() -> {
+            MainGUI mainGUI = new MainGUI();
+            mainGUI.setVisible(true);
+        });
     }
+
+    public MainGUI() {
+        setTitle("Library Management System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 250);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(createButton("List All Books", e -> app.listAllBooks()));
+        panel.add(createButton("List All People", e -> app.listAllPeople()));
+        panel.add(createButton("Create Person", e -> app.createPerson()));
+        panel.add(createButton("Create Book", e -> app.createBook()));
+        panel.add(createButton("Create Rental", e -> app.createRental()));
+        panel.add(createButton("List Rentals for a Person", e -> {
+            int personId = getUserInput("Enter the person ID: ");
+            app.listRentalsForPerson(personId);
+        }));
+        panel.add(createButton("Quit", e -> System.exit(0)));
+
+        add(panel);
+    }
+
+
 }
