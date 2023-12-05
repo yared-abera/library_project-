@@ -1,5 +1,5 @@
- import java.util.ArrayList;
- import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Person implements Nameable {
@@ -20,7 +20,7 @@ public class Person implements Nameable {
     boolean parentPermission = true;
 
     // List to store rentals associated with the person
-   List<Rental> rentals = new ArrayList<>();
+    List<Rental> rentals = new ArrayList<>();
 
     // Constructor to initialize a person with age, parental permission, and name
     public Person(int id,int age, boolean parentPermission, String name) {
@@ -61,7 +61,7 @@ public class Person implements Nameable {
 
     // Method to check if the person can use services (e.g., rent a book)
     public boolean canUseServices() {
-        return ofAge() || parentPermission;
+        return ofAge() ||parentPermission;
     }
 
     // Alternative method name for canUseServices
